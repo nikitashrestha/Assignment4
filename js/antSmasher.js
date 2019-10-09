@@ -1,8 +1,8 @@
 
 var DIRECTION = [-5,-4,-3,3,4,5];
 var MAXSPEED = 3;
-var MAXWIDTH = 500 - 49;
-var MAXHEIGHT = 500 - 49;
+var MAXWIDTH = 1200 - 50;
+var MAXHEIGHT = 800 - 50;
 var WIDTHS = [50,60,70];
 var MASS = [30,40,50];
 var BOXCOLOR = ['green','orange','pink'];
@@ -44,12 +44,6 @@ class Box {
         this.dy = dy;
     }
 
-
-    setDirection(a,b){
-        this.dx = a;
-        this.dy = b;
-    }
-
     reverseXDirection(){
         this.dx*=-1;
     }
@@ -81,7 +75,7 @@ class Box {
     }
 
     checkWallCollisionY(){
-        if(((this.y + (2.3 * this.diameter)) >= 500) || ((this.y - this.diameter) <= 0)){
+        if(((this.y + (2.5 * this.diameter)) >= 500) || ((this.y - this.diameter) <= 0)){
             return true;
         }
         else{
@@ -111,7 +105,7 @@ class Box {
 }
 
 class Game{
-    constructor(MAXWIDTH,MAXHEIGHT,boxCount,parentElementID,BOXCOLOR){
+    constructor(boxCount,parentElementID,BOXCOLOR){
         this.MAXHEIGHT = MAXHEIGHT;
         this.MAXWIDTH = MAXWIDTH;
         this.boxCount = boxCount;
@@ -179,11 +173,15 @@ class Game{
 
     antSmash(){
         var gameDOM = this.parentElement.children;
+        console.log(gameDOM.length);
         console.log(gameDOM);
-        for( var i = 0;i <= gameDOM.length; i++){
-            gameDOM[i].onclick = function(){
-                this.boxes.splice(i,1);
-                this.parentElement.removeChild(gameDOM[i]);
+        for( let m = 0; m< gameDOM.length; m++){
+            console.log(gameDOM[m]);
+            gameDOM[m].onclick = function(){
+                console.log('inside onclick');
+                this.boxes.splice(m,1);
+                this.boxCount--;
+                this.parentElement.removeChild(gameDOM[m]);
                 this.scoreCount++;
                 console.log(this.scoreCount);
             }.bind(this);
@@ -191,7 +189,7 @@ class Game{
     }
 
     showScore(){
-        document.getElementById('score-count').innerHTML = this.scoreCount + '';
+        document.getElementsByClassName('score-count')[0].innerHTML = 'Score : ' + this.scoreCount;
     }
 
     moveBoxes(){
@@ -214,7 +212,7 @@ class Game{
     }
 }
 
-game = new Game(500,500,5,'box1',BOXCOLOR);
+game = new Game(50,'box1',BOXCOLOR);
 game.moveBoxes();
 
 
